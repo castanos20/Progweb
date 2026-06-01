@@ -47,5 +47,9 @@ namespace Proyecto_Polleria.Services
         public List<Trabajador> GetAllMesero() { 
             return repository.GetAllMesero();
         }
+        public List<Trabajador> GetAllCocineros()
+        {
+            return repository.GetAllCocineros();
+        }
     }
 }

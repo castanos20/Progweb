@@ -87,5 +87,15 @@ namespace Proyecto_Polleria.Repository
                 return conn.Query<Trabajador>(sql).ToList();
             }
         }
+        
+        public List<Trabajador> GetAllCocineros()
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM vista_empleados2 WHERE rol = 3 ";
+                return conn.Query<Trabajador>(sql).ToList();
+            }
+        }
     }
 }

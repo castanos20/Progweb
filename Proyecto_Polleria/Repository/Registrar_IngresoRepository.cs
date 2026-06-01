@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Proyecto_Polleria.Data;
 using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Models.temp;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,5 +74,46 @@ namespace Proyecto_Polleria.Repository
                 return conn.Execute(sql, new { id });
             }
         }
+
+        public List<Pedido> GetPedidos(int id)
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM pedido WHERE id_servicio=@id ";
+                return conn.Query<Pedido>(sql, new {id}).ToList();
+            }
+        }
+        public int ActualizarSalida(Servicio serv)
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "UPDATE servicio SET hora_salida = NOW() WHERE id = @id";
+                return conn.Execute(sql, serv);
+            }
+        }
+        public List<Servicio> GetHistorial()
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM servicio WHERE hora_salida IS NOT NULL ORDER BY hora_salida DESC";
+                return conn.Query<Servicio>(sql).ToList();
+            }
+        }
+        public List<DetallePedidoTemp> GetDetallesPorServicio(int idServicio)
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+
+          
+                var sql = "SELECT * FROM v_detalle_pedidos_servicio WHERE id_servicio = @idServicio";
+
+                return conn.Query<DetallePedidoTemp>(sql, new { idServicio }).ToList();
+            }
+        }
+
     }
 }

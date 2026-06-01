@@ -4,11 +4,13 @@ namespace Proyecto_Polleria.Models
     {
         public int id { get; set; }
         public DateTime hora_ingreso { get; set; }
-        public DateTime hora_salida { get; set; }
+        public DateTime? hora_salida { get; set; }
         public int id_mesa { get; set; }
         public string id_agenteservicio { get; set; }
         public int id_tipo_servicio { get; set; }
         public string id_cliente { get; set; }
+
+        public string DescripcionServicio => $"Mesa {id_mesa} cc {id_cliente} ";
 
         public Servicio() { }
         public Servicio(int id, DateTime hora_ingreso, DateTime hora_salida,

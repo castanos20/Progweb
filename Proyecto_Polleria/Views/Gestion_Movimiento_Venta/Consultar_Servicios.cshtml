@@ -1,9 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model Proyecto_Polleria.Models.temp.Registrar_IngresoTemp
+﻿@model List<Proyecto_Polleria.Models.Servicio>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2">
@@ -59,42 +54,61 @@
                 </li>
             </ul>
         </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2">
+                </nav>
 
-        <div>
-            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Ingreso" method="post">
-                <fieldset>
-                    <legend>Registrar Servicio / Pedido</legend>
-                    <hr />
-
-                    <!-- Selección de Mesa -->
-                    <div>
-                        <label>Seleccione la Mesa</label>
-                        <select asp-for="id_mesa" asp-items="ViewBag.Mesas" required>
-                            <option value="">-- Seleccione una mesa --</option>
-                        </select>
-                        
+                <main class="col-md-10">
+                    <div class="card card-info">
+                        <div class="card-header bg-info text-white">
+                            <h3 class="card-title">Historial de Servicios / Ventas Cerradas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID Servicio</th>
+                                            <th>Mesa</th>
+                                            <th>Cliente (CC)</th>
+                                            <th>Hora Ingreso</th>
+                                            <th>Hora Salida</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Any())
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.id</td>
+                                                    <td>Mesa @item.id_mesa</td>
+                                                    <td>@item.id_cliente</td>
+                                                    <td>@item.hora_ingreso.ToString("dd/MM/yyyy HH:mm")</td>
+                                                    <td>@item.hora_salida?.ToString("dd/MM/yyyy HH:mm")</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-primary" asp-action="DetallePedido" asp-route-idServicio="@item.id">
+                                                            Ver Detalle
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="text-center">No se encontraron servicios cerrados en el historial.</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Selección de Mesero -->
-                    <div>
-                        <label>Seleccione el Mesero</label>
-                        <select asp-for="id_agentesevicio" asp-items="ViewBag.Meseros" required>
-                            <option value="">-- Seleccione un mesero --</option>
-                        </select>
-                 
-                    </div>
-
-                    <!-- Cédula de Ciudadanía del Cliente -->
-                    <div>
-                        <label>Cédula de ciudadanía del Cliente</label>
-                        <input asp-for="id_cliente" type="text" placeholder="Ingrese el documento" required />
-                        
-                    </div>
-
-                    <br />
-                    <button type="submit">Registrar</button>
-                </fieldset>
-            </form>
+                </main>
+            </div>
         </div>
     </div>
 </div>

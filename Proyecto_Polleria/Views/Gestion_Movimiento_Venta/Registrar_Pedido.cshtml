@@ -1,8 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@* For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860*@
 @{
 }
+@model Proyecto_Polleria.Models.temp.Registrar_PedidoTemp
+
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2">
@@ -19,15 +19,16 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#menuConsultar" role="button" aria-expanded="false" aria-controls="menuConsultar">
                         Consultar ▾
                     </a>
                     <div class="collapse" id="menuConsultar">
                         <ul class="nav flex-column ms-3">
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Consultar_Servicios">Historial de Ventas</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Monitoreo Cocina</a></li>
                         </ul>
                     </div>
                 </li>
@@ -57,10 +58,51 @@
                 </li>
             </ul>
         </nav>
+
         <div>
+            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Pedido" method="post">
+                <fieldset>
+                    <legend>Registrar Pedido</legend>
+                    <hr />
+
+                    <div>
+                        <label>Seleccione el Servicio / Mesa</label>
+                        <select asp-for="id_servicio" asp-items="ViewBag.Servicios" required>
+                            <option value="">-- Seleccione el servicio --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Seleccione el Plato</label>
+                        <select asp-for="id_plato" asp-items="ViewBag.Platos" required>
+                            <option value="">-- Seleccione un plato --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Seleccione el Cocinero</label>
+                        <select asp-for="id_cocinero" asp-items="ViewBag.Cocineros" required>
+                            <option value="">-- Seleccione un cocinero --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Estado del Proceso</label>
+                        <select asp-for="id_proceso" asp-items="ViewBag.Procesos" required>
+                            <option value="">-- Seleccione el estado --</option>
+                        </select>
+                    </div>
 
 
+                    <div>
+                        <label>Novedad / Especificación</label>
+                        <input asp-for="novedad" type="text" placeholder="Ej: Sin salsa, bien cocido" />
+                    </div>
 
+                    <br />
+                    <button type="submit">Registrar Pedido</button>
+                </fieldset>
+            </form>
         </div>
     </div>
 </div>

@@ -3,3 +3,89 @@
 *@
 @{
 }
+@model Proyecto_Polleria.Models.Servicio
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="collapse" href="#menuRegistrar" role="button" aria-expanded="false" aria-controls="menuRegistrar">
+                        Registrar ▾
+                    </a>
+                    <div class="collapse" id="menuRegistrar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Ingreso">Registrar Ingreso</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Pedido">Registrar Pedido</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Salida">Registrar Salida</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuConsultar" role="button" aria-expanded="false" aria-controls="menuConsultar">
+                        Consultar ▾
+                    </a>
+                    <div class="collapse" id="menuConsultar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Consultar_Servicios">Historial de Ventas</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Monitoreo Cocina</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuActualizar" role="button" aria-expanded="false" aria-controls="menuActualizar">
+                        Actualizar ▾
+                    </a>
+                    <div class="collapse" id="menuActualizar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuEliminar" role="button" aria-expanded="false" aria-controls="menuEliminar">
+                        Eliminar ▾
+                    </a>
+                    <div class="collapse" id="menuEliminar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="col-md-10">
+            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Salida" method="post">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Registrar Salida de Servicio</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Seleccione el Servicio</label>
+                            <select asp-for="id" class="form-control" asp-items="ViewBag.Servicios" onchange="this.form.submit()">
+                                <option value="">-- Seleccione un servicio --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-4 text-center">
+                            <label>Total a Pagar:</label>
+                            <h1 class="text-success font-weight-bold">$@ViewBag.TotalServicio</h1>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" asp-action="ConfirmarSalida" class="btn btn-danger btn-block">Confirmar Salida</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>

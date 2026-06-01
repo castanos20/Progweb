@@ -28,6 +28,10 @@ builder.Services.AddScoped<Registrar_IngresoService>();
 builder.Services.AddScoped<ProcesoRepository>();
 builder.Services.AddScoped<ProcesoService>();
 builder.Services.AddSession();
+builder.Services.AddScoped<PlatoRepository>();
+builder.Services.AddScoped<PlatoService>();
+builder.Services.AddScoped<PedidoRepository>();
+builder.Services.AddScoped<PedidoService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

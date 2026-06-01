@@ -1,4 +1,5 @@
 ﻿using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Models.temp;
 using Proyecto_Polleria.Repository;
 using System.Collections.Generic;
 
@@ -46,6 +47,23 @@ namespace Proyecto_Polleria.Services
                 return false;
             }
             return true;
+        }
+        public double TotalPedido(int id)
+        {
+            List<Pedido> pedidos = repository.GetPedidos(id);
+            return (double)pedidos.Sum(p => p.precio);
+        }
+        public int RegistrarSalida(Servicio serv)
+        {
+            return repository.ActualizarSalida(serv);
+        }
+        public List<Servicio> GetHistorialServicios()
+        {
+            return repository.GetHistorial();
+        }
+        public List<DetallePedidoTemp> GetDetallesPorServicio(int idServicio)
+        {
+            return repository.GetDetallesPorServicio(idServicio);
         }
     }
 }
