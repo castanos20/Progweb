@@ -47,5 +47,13 @@ namespace Proyecto_Polleria.Services
             }
             return true;
         }
+        public List<Pedido> PedidosMesa(int id)
+        {
+            return repository.PedidosMesa(id);
+        }
+        public int ActualizaEstado(Pedido tmp)
+        {
+            return repository.ActualizaEstado(tmp);
+        }
     }
 }

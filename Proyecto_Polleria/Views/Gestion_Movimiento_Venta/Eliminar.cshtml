@@ -1,8 +1,8 @@
-﻿@* For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860*@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
 }
-@model Proyecto_Polleria.Models.temp.Registrar_PedidoTemp
-
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2">
@@ -64,51 +64,21 @@
                     </li>
                 </ul>
             </nav>
+            <div>
+                <form asp-controller="Gestion_Movimiento_Venta" asp-action="Eliminar" method="post">
+                    <fieldset>
+                        <legend>Eliminar Servicio</legend>
+                        <hr />
 
-        <div>
-            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Pedido" method="post">
-                <fieldset>
-                    <legend>Registrar Pedido</legend>
-                    <hr />
+                        <div>
+                            <label>Ingrese el ID del Servicio a eliminar</label>
+                            <input type="number" name="id" placeholder="Ej: 1024" required />
+                        </div>
 
-                    <div>
-                        <label>Seleccione el Servicio / Mesa</label>
-                        <select asp-for="id_servicio" asp-items="ViewBag.Servicios" required>
-                            <option value="">-- Seleccione el servicio --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Seleccione el Plato</label>
-                        <select asp-for="id_plato" asp-items="ViewBag.Platos" required>
-                            <option value="">-- Seleccione un plato --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Seleccione el Cocinero</label>
-                        <select asp-for="id_cocinero" asp-items="ViewBag.Cocineros" required>
-                            <option value="">-- Seleccione un cocinero --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Estado del Proceso</label>
-                        <select asp-for="id_proceso" asp-items="ViewBag.Procesos" required>
-                            <option value="">-- Seleccione el estado --</option>
-                        </select>
-                    </div>
-
-
-                    <div>
-                        <label>Novedad / Especificación</label>
-                        <input asp-for="novedad" type="text" placeholder="Ej: Sin salsa, bien cocido" />
-                    </div>
-
-                    <br />
-                    <button type="submit">Registrar Pedido</button>
-                </fieldset>
-            </form>
+                        <br />
+                        <button type="submit" onclick="return confirm('¿Está seguro de que desea eliminar este servicio?');">Eliminar</button>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
-</div>

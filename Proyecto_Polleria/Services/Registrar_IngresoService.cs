@@ -65,5 +65,18 @@ namespace Proyecto_Polleria.Services
         {
             return repository.GetDetallesPorServicio(idServicio);
         }
+        public List<MonitoreoCocinaTemp> GetPedidosCocina()
+        {
+            return repository.GetPedidosCocina();
+        }
+
+        public List<Pedido> PedidosActivos()
+        {
+            return repository.PedidosActivos();
+        }
+        public List<Servicio> ServciciosActivos()
+        {
+            return repository.ServciciosActivos();
+        }
     }
 }

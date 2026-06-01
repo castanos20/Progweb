@@ -1,7 +1,4 @@
-﻿@* For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860*@
-@{
-}
-@model Proyecto_Polleria.Models.temp.Registrar_PedidoTemp
+﻿@model List<Proyecto_Polleria.Models.temp.DetallePedidoTemp>
 
 <div class="container-fluid">
     <div class="row">
@@ -65,50 +62,56 @@
                 </ul>
             </nav>
 
-        <div>
-            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Pedido" method="post">
-                <fieldset>
-                    <legend>Registrar Pedido</legend>
-                    <hr />
+        <main class="col-md-10">
+            <div class="card card-secondary">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Detalle del Servicio #@ViewBag.IdServicio</h3>
+                    <a asp-action="Consultar_Servicios" class="btn btn-sm btn-light">Volver al Historial</a>
+                </div>
 
-                    <div>
-                        <label>Seleccione el Servicio / Mesa</label>
-                        <select asp-for="id_servicio" asp-items="ViewBag.Servicios" required>
-                            <option value="">-- Seleccione el servicio --</option>
-                        </select>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Plato / Producto</th>
+                                    <th>Novedad / Nota</th>
+                                    <th>Cocinero Asignado</th>
+                                    <th class="text-end">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.id_pedido</td>
+                                            <td>@item.nombre_plato</td>
+                                            <td>@(string.IsNullOrEmpty(item.novedad) ? "Sin novedades" : item.novedad)</td>
+                                            <td>@(item.nombre_cocinero ?? "No asignado")</td>
+                                            <td class="text-end">$@item.precio_plato.ToString("N2")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center">Este servicio no registró ningún pedido.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-light font-weight-bold">
+                                    <td colspan="4" class="text-end"><strong>Gran Total Pagado:</strong></td>
+                                    <td class="text-end text-success h5"><strong>$@ViewBag.TotalConsumido.ToString("N2")</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-
-                    <div>
-                        <label>Seleccione el Plato</label>
-                        <select asp-for="id_plato" asp-items="ViewBag.Platos" required>
-                            <option value="">-- Seleccione un plato --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Seleccione el Cocinero</label>
-                        <select asp-for="id_cocinero" asp-items="ViewBag.Cocineros" required>
-                            <option value="">-- Seleccione un cocinero --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Estado del Proceso</label>
-                        <select asp-for="id_proceso" asp-items="ViewBag.Procesos" required>
-                            <option value="">-- Seleccione el estado --</option>
-                        </select>
-                    </div>
-
-
-                    <div>
-                        <label>Novedad / Especificación</label>
-                        <input asp-for="novedad" type="text" placeholder="Ej: Sin salsa, bien cocido" />
-                    </div>
-
-                    <br />
-                    <button type="submit">Registrar Pedido</button>
-                </fieldset>
-            </form>
-        </div>
+                </div>
+            </div>
+        </main>
     </div>
 </div>

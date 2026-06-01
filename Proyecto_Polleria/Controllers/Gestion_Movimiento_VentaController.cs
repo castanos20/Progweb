@@ -51,9 +51,7 @@ namespace Proyecto_Polleria.Controllers
         {
             List<Proceso> procesos = procesoService.GetAll();
             List<Trabajador> cocineros = trabajadorService.GetAllCocineros();
-            List<Servicio> servicios = servicioService.GetAll()
-                                         .Where(s => s.hora_salida == null)
-                                         .ToList();
+            List<Servicio> servicios = servicioService.ServciciosActivos();
             List<Plato> platos = platoService.GetAll();
             ViewBag.Servicios = new SelectList(servicios, "id", "DescripcionServicio");
             ViewBag.Platos = new SelectList(platos, "id", "nombre");
@@ -78,9 +76,7 @@ namespace Proyecto_Polleria.Controllers
         public IActionResult Registrar_Salida()
         {
             Servicio servicio = new Servicio();
-            List<Servicio> servicios = servicioService.GetAll()
-                                         .Where(s => s.hora_salida == null)
-                                         .ToList();
+            List<Servicio> servicios = servicioService.ServciciosActivos();
             ViewBag.Servicios = new SelectList(servicios, "id", "DescripcionServicio");
             return View();
         }
@@ -88,9 +84,7 @@ namespace Proyecto_Polleria.Controllers
         public IActionResult Registrar_Salida(Servicio ser)
         {
             ViewBag.TotalServicio = servicioService.TotalPedido(ser.id);
-            List<Servicio> servicios = servicioService.GetAll()
-                                         .Where(s => s.hora_salida == null)
-                                         .ToList();
+            List<Servicio> servicios = servicioService.ServciciosActivos();
             ViewBag.Servicios = new SelectList(servicios, "id", "DescripcionServicio");
             return View(ser);
         }
@@ -109,5 +103,70 @@ namespace Proyecto_Polleria.Controllers
             List<Servicio> historial = servicioService.GetHistorialServicios();
             return View(historial);
         }
+        [HttpGet]
+        public IActionResult DetallePedido(int idServicio)
+        {
+            
+            List<DetallePedidoTemp> detalles = servicioService.GetDetallesPorServicio(idServicio);
+
+           
+            ViewBag.TotalConsumido = detalles.Sum(d => d.precio_plato);
+            ViewBag.IdServicio = idServicio;
+
+            return View(detalles);
+        }
+        [HttpGet]
+        public IActionResult Monitoreo_Cocina()
+        {
+            var pedidosActivos = servicioService.GetPedidosCocina();
+            return View(pedidosActivos);
+        }
+        [HttpGet]
+        public IActionResult Actualizar_Proceso(int? id)
+        {
+            var serviciosActivos = servicioService.ServciciosActivos();
+            var pedidos_existentes = servicioService.PedidosActivos();
+            var procesos = procesoService.GetAll();
+            ViewBag.Mesas = new SelectList(serviciosActivos, "id_mesa", "DescripcionServicio");
+            ViewBag.Pedidos = new SelectList(pedidos_existentes, "id", "id");
+            ViewBag.Procesos = new SelectList(procesos, "id", "descripcion");
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Actualizar_Proceso(Actualizar_ProcesoTemp tmp)
+        {
+            int dato = tmp.id_mesa;
+            var pedidos_Servicio = pedidoService.PedidosMesa(dato);
+            var procesos = procesoService.GetAll();
+            var serviciosActivos = servicioService.ServciciosActivos();
+            ViewBag.Mesas = new SelectList(serviciosActivos, "id_mesa", "DescripcionServicio");
+            ViewBag.Pedidos = new SelectList(pedidos_Servicio, "id", "id");
+            ViewBag.Procesos = new SelectList(procesos, "id", "descripcion");
+            return View(tmp);
+        }
+        [HttpPost]
+        public IActionResult ActualizarEstado(Actualizar_ProcesoTemp tmp)
+        {
+            Pedido pedido = new Pedido();
+            pedido.id = tmp.id_pedido;
+            pedido.id_proceso = tmp.id_proceso;
+            pedidoService.ActualizaEstado(pedido);
+            return RedirectToAction("Actualizar_Proceso");
+        }
+        [HttpGet]
+        public IActionResult Eliminar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Eliminar(int id)
+        {
+            servicioService.Delete(id);
+
+
+            return RedirectToAction("Actualizar_Proceso");
+        }
+
     }
 }

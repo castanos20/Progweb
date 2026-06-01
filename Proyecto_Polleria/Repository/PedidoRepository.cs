@@ -72,5 +72,21 @@ namespace Proyecto_Polleria.Repository
                 return conn.Execute(sql, new { id });
             }
         }
+        public List<Pedido> PedidosMesa(int id)
+        {
+            using (var conn = db.GetConnection())
+            {
+                var sql = "SELECT * FROM pedido WHERE id_servicio IN (SELECT s.id FROM servicio s JOIN mesa m ON s.id_mesa = m.id WHERE m.id = @id AND s.hora_salida IS NULL)";
+                return conn.Query<Pedido>(sql, new { id }).ToList();
+            }
+        }
+        public int ActualizaEstado(Pedido tmp)
+        {
+            using (var conn = db.GetConnection())
+            {
+                var sql = "UPDATE pedido SET id_proceso = @id_proceso WHERE id = @id";
+                return conn.Execute(sql,tmp);
+            }
+        }
     }
 }

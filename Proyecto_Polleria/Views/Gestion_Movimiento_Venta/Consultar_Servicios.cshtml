@@ -1,4 +1,5 @@
-﻿@model List<Proyecto_Polleria.Models.Servicio>
+﻿
+@model List<Proyecto_Polleria.Models.Servicio>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2">
@@ -24,7 +25,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Consultar_Servicios">Historial de Ventas</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="#">Monitoreo Cocina</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Monitoreo_Cocina">Monitoreo Cocina</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -35,8 +38,10 @@
                     </a>
                     <div class="collapse" id="menuActualizar">
                         <ul class="nav flex-column ms-3">
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Actualizar_Proceso">Actualizar estado</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -47,13 +52,15 @@
                     </a>
                     <div class="collapse" id="menuEliminar">
                         <ul class="nav flex-column ms-3">
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
-                            <li class="nav-item"><a class="nav-link" href="#"></a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+                            <
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Eliminar">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
         <div class="container-fluid">
             <div class="row">
                 <nav class="col-md-2">

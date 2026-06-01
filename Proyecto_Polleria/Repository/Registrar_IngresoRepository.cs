@@ -114,6 +114,37 @@ namespace Proyecto_Polleria.Repository
                 return conn.Query<DetallePedidoTemp>(sql, new { idServicio }).ToList();
             }
         }
+        public List<MonitoreoCocinaTemp> GetPedidosCocina()
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM v_monitoreo_cocina ORDER BY hora_ingreso ASC";
+                List<MonitoreoCocinaTemp> lista = conn.Query<MonitoreoCocinaTemp>(sql).ToList();
+
+                // Filtramos para NO mostrar los que ya fueron entregados/finalizados
+                return lista.Where(p => p.id_proceso != 2).ToList();
+            }
+        }
+
+        public List<Pedido> PedidosActivos()
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM pedido WHERE id_servicio IN (   SELECT id FROM servicio  WHERE hora_salida IS NULL)";
+                return conn.Query<Pedido>(sql).ToList();
+            }
+        }
+        public List<Servicio> ServciciosActivos()
+        {
+            using (var conn = db.GetConnection())
+            {
+                conn.Open();
+                var sql = "SELECT * FROM servicio  WHERE hora_salida IS NULL";
+                return conn.Query<Servicio>(sql).ToList();
+            }
+        }
 
     }
 }
