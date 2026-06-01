@@ -1,0 +1,113 @@
+@model List<Inventario>
+@{
+    var ingresos = Model?.Where(m => m.id_tipo_movimiento == 1).ToList() ?? new List<Inventario>();
+    var salidas = Model?.Where(m => m.id_tipo_movimiento == 2).ToList() ?? new List<Inventario>();
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_inventario" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_inventario" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_inventario" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_inventario" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <h3 class="mb-4">Movimientos de Inventario</h3>
+
+            <ul class="nav nav-tabs" id="consultarTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="listado-ingresos-tab" data-bs-toggle="tab" data-bs-target="#listado-ingresos" type="button" role="tab" aria-controls="listado-ingresos" aria-selected="true">Historial de Ingresos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="listado-salidas-tab" data-bs-toggle="tab" data-bs-target="#listado-salidas" type="button" role="tab" aria-controls="listado-salidas" aria-selected="false">Historial de Salidas</button>
+                </li>
+            </ul>
+
+            <div class="tab-content border-start border-end border-bottom p-4 bg-light" id="consultarTabContent">
+                <!-- Listado de Ingresos -->
+                <div class="tab-pane fade show active" id="listado-ingresos" role="tabpanel" aria-labelledby="listado-ingresos-tab">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Ingrediente</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ingresos.Any())
+                            {
+                                foreach (var item in ingresos)
+                                {
+                                    <tr>
+                                        <td>@item.id</td>
+                                        <td>@item.fecha.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td>@item.nombre_ingrediente</td>
+                                        <td>@item.cantidad</td>
+                                        <td>$@item.precio_unitario.ToString("N2")</td>
+                                        <td>$@((item.cantidad * item.precio_unitario).ToString("N2"))</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">No hay registros de ingresos.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Listado de Salidas -->
+                <div class="tab-pane fade" id="listado-salidas" role="tabpanel" aria-labelledby="listado-salidas-tab">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Ingrediente</th>
+                                <th>Cantidad Retirada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (salidas.Any())
+                            {
+                                foreach (var item in salidas)
+                                {
+                                    <tr>
+                                        <td>@item.id</td>
+                                        <td>@item.fecha.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td>@item.nombre_ingrediente</td>
+                                        <td>@item.cantidad</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay registros de salidas.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

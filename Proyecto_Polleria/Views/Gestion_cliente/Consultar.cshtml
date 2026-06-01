@@ -1,0 +1,62 @@
+@model List<Cliente>
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Eliminar">Eliminar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Actualizar">Actualizar</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+<div>
+    <fieldset>
+        <legend>Listado de Clientes</legend>
+        <hr />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre Completo</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td>@cliente.cc</td>
+                            <td>@cliente.nombre</td>
+                            <td>@cliente.telefono</td>
+                            <td>@cliente.direccion</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No hay clientes registrados.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+</div>

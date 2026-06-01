@@ -1,0 +1,65 @@
+@model List<Proyecto_Polleria.Models.Inventario>
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" asp-controller="Gestion_Movimiento_Compra" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div>
+                <fieldset>
+                    <legend>Pedidos de la Compra #@ViewBag.id_compra</legend>
+                    <hr />
+                    <a class="btn btn-sm btn-secondary mb-3" asp-controller="Gestion_Movimiento_Compra" asp-action="Consultar">← Volver</a>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ingrediente</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.id</td>
+                                        <td>@item.nombre_ingrediente</td>
+                                        <td>@item.cantidad</td>
+                                        <td>@item.precio_unitario</td>
+                                        <td>@item.fecha.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">No hay pedidos para esta compra.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

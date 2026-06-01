@@ -1,0 +1,48 @@
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div class="mx-auto" style="width:40%">
+                <div>
+                    <form asp-controller="Gestion_proveedor" asp-action="Eliminar" method="post">
+                        <fieldset>
+                            <legend>Eliminar Proveedor</legend>
+                            <hr />
+                            <div>
+                                <label>Ingrese NIT del proveedor a eliminar:</label>
+                                <input type="text" name="nit" required />
+                            </div>
+                            <br />
+                            <button type="submit" style="color: white; background-color: red; border: none; padding: 5px 10px;">Eliminar</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <br />
+                <div>
+                    @if (ViewBag.mensajeEliminar != null)
+                    {
+                        <label>@ViewBag.mensajeEliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

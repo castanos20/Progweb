@@ -1,0 +1,80 @@
+@model Proyecto_Polleria.Models.Trabajador
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Eliminar">Eliminar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Actualizar">Actualizar</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+<div class="mx-auto" style="width:40%">
+    <form asp-controller="Gestion_trabajador" asp-action="Actualizar" method="get">
+        <div>
+            <label>Ingrese cedula de ciudadania a buscar</label>
+            <input type="text" name="cc_buscar" />
+            <button type="submit">Buscar</button>
+        </div>
+        <div>
+            @if (ViewBag.mensaje != null)
+                {
+                <label>@ViewBag.mensaje</label>
+                }
+        </div>
+
+    </form>
+    <div>
+        <form asp-controller="Gestion_trabajador" asp-action="Actualizar" method="post">
+            <fieldset>
+                <legend>Actualizar Trabajador</legend>
+                <hr />
+                <div>
+                    <label>Cedula de ciudadania</label>
+                    <input asp-for="cc" type="text" readonly title="La cedula no se puede modificar" />
+                </div>
+                <div>
+                    <label>Modifique nombre</label>
+                    <input asp-for="nombre" type="text" required />
+                </div>
+                <div>
+                    <label>Modifique telefono</label>
+                    <input asp-for="telefono" type="text" required />
+                </div>
+                <div>
+                    <label>Modifique direccion</label>
+                    <input asp-for="direccion" type="text" required />
+                </div>
+                <div>
+                    <label>Modifique salario</label>
+                    <input asp-for="salario" type="number" step="any" required />
+                </div>
+                <div>
+                    <label>Modifique Su funcion</label>
+                    <select asp-for="rol" disabled>
+                        <option value="1">Mesero</option>
+                        <option value="2">Domiciliario</option>
+                        <option value="3">Cocinero</option>
+                    </select>
+                    <input asp-for="rol" type="hidden" />
+                </div>
+                <br />
+                <button type="submit">Actualizar</button>
+            </fieldset>
+        </form>
+    </div>
+</div>

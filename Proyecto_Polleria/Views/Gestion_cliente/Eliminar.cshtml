@@ -1,0 +1,45 @@
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Eliminar">Eliminar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_cliente" asp-action="Actualizar">Actualizar</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+<div>
+    <form asp-controller="Gestion_cliente" asp-action="Eliminar" method="post">
+        <fieldset>
+            <legend>Eliminar Cliente</legend>
+            <hr />
+            <div>
+                <label>Ingrese cedula de ciudadania del cliente a eliminar:</label>
+                <input type="text" name="cc" required />
+            </div>
+            <br />
+            <button type="submit">Eliminar</button>
+        </fieldset>
+    </form>
+    <div>
+        @if (ViewBag.mensajeEliminar != null)
+        {
+            <label>@ViewBag.mensajeEliminar</label>
+        }
+    </div>
+</div>

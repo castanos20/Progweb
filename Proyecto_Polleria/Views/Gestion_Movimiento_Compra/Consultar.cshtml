@@ -1,0 +1,74 @@
+@model List<Proyecto_Polleria.Models.Movimiento_Compra>
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" asp-controller="Gestion_Movimiento_Compra" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div>
+                <fieldset>
+                    <legend>Listado de Compras</legend>
+                    <hr />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Proveedor</th>
+                                <th>Descripción</th>
+                                <th>Método de Pago</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var compra in Model)
+                                {
+                                    <tr>
+                                        <td>@compra.id</td>
+                                        <td>@compra.id_proveedor</td>
+                                        <td>@compra.descripcion</td>
+                                        <td>
+                                            @(compra.id_metodo_pago switch {
+                                                1 => "Efectivo",
+                                                2 => "Tarjeta débito",
+                                                3 => "Tarjeta crédito",
+                                                4 => "Transferencia",
+                                                _ => compra.id_metodo_pago.ToString()
+                                            })
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Gestion_Movimiento_Compra" asp-action="DetallePedidos" asp-route-id="@compra.id">Ver pedidos</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">No hay compras registradas.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+@model List<Proveedor>
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div>
+                <fieldset>
+                    <legend>Listado de Proveedores</legend>
+                    <hr />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NIT</th>
+                                <th>Razón Social o Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var proveedor in Model)
+                                {
+                                    <tr>
+                                        <td>@proveedor.nit</td>
+                                        <td>@proveedor.nombre</td>
+                                        <td>@proveedor.telefono</td>
+                                        <td>@proveedor.direccion</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">No hay proveedores registrados.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

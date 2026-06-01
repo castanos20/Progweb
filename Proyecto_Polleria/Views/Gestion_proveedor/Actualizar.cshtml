@@ -1,0 +1,68 @@
+@model Proveedor
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div class="mx-auto" style="width:40%">
+                <form asp-controller="Gestion_proveedor" asp-action="Actualizar" method="get">
+                    <div>
+                        <label>Ingrese NIT a buscar</label>
+                        <input type="text" name="nit_buscar" />
+                        <button type="submit">Buscar</button>
+                    </div>
+                    <div>
+                        @if (ViewBag.mensaje != null)
+                        {
+                            <label>@ViewBag.mensaje</label>
+                        }
+                    </div>
+                </form>
+                <hr />
+                <div>
+                    <form asp-controller="Gestion_proveedor" asp-action="Actualizar" method="post">
+                        <fieldset>
+                            <legend>Actualizar Proveedor</legend>
+                            <hr />
+                            <div>
+                                <label>NIT</label>
+                                <input asp-for="nit" type="text" readonly title="El NIT no se puede modificar" />
+                            </div>
+                            <div>
+                                <label>Modifique Razón Social o Nombre</label>
+                                <input asp-for="nombre" type="text" required />
+                            </div>
+                            <div>
+                                <label>Modifique Teléfono</label>
+                                <input asp-for="telefono" type="text" required />
+                            </div>
+                            <div>
+                                <label>Modifique Dirección</label>
+                                <input asp-for="direccion" type="text" required />
+                            </div>
+                            <br/>
+                            <button type="submit">Actualizar</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

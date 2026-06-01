@@ -1,0 +1,78 @@
+@model Proyecto_Polleria.Models.Movimiento_Compra
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_Movimiento_Compra" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" asp-controller="Gestion_Movimiento_Compra" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div class="mx-auto" style="width:40%">
+
+                <form asp-controller="Gestion_Movimiento_Compra" asp-action="Eliminar" method="get">
+                    <div>
+                        <label>Ingrese ID de la compra a eliminar</label>
+                        <input type="number" name="id" class="form-control" required />
+                        <br />
+                        <button type="submit" class="btn btn-secondary">Buscar</button>
+                    </div>
+                    @if (ViewBag.mensaje != null && Model == null)
+                    {
+                        <div class="mt-2">
+                            <label class="text-danger">@ViewBag.mensaje</label>
+                        </div>
+                    }
+                </form>
+
+                <hr />
+
+                @if (Model != null)
+                {
+                    <fieldset>
+                        <legend>Confirmar Eliminación</legend>
+                        <hr />
+                        <p><strong>ID:</strong> @Model.id</p>
+                        <p><strong>Proveedor:</strong> @Model.id_proveedor</p>
+                        <p><strong>Descripción:</strong> @Model.descripcion</p>
+                        <p><strong>Método de Pago:</strong>
+                            @(Model.id_metodo_pago switch {
+                                1 => "Efectivo",
+                                2 => "Tarjeta débito",
+                                3 => "Tarjeta crédito",
+                                4 => "Transferencia",
+                                _ => Model.id_metodo_pago.ToString()
+                            })
+                        </p>
+                    </fieldset>
+
+                    <form asp-controller="Gestion_Movimiento_Compra" asp-action="Eliminar" method="post">
+                        <input type="hidden" name="id" value="@Model.id" />
+                        <button type="submit" class="btn btn-danger w-100">Confirmar Eliminación</button>
+                    </form>
+                }
+
+                @if (ViewBag.mensaje != null && Model == null)
+                {
+                    <div class="mt-2">
+                        <label class="text-success">@ViewBag.mensaje</label>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

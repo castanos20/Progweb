@@ -1,0 +1,73 @@
+@model Trabajador
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Eliminar">Eliminar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_trabajador" asp-action="Actualizar">Actualizar</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+    <div class="mx-auto" style="width:40%">
+    <div>
+        <form asp-controller="Gestion_trabajador" asp-action="Registrar" method="post">
+            <fieldset>
+                <legend>Registre Nuevo Trabajador</legend>
+                <hr />
+                <div>
+                    <label>Ingrese cedula de ciudadania</label>
+                    <input asp-for="cc" type="text" required />
+                </div>
+                <div>
+                    <label>Ingrese nombre</label>
+                    <input asp-for="nombre" type="text" required />
+                </div>
+                <div>
+                    <label>Ingrese telefono</label>
+                    <input asp-for="telefono" type="text" required />
+                </div>
+                <div>
+                    <label>Ingrese direccion</label>
+                    <input asp-for="direccion" type="text" required />
+                </div>
+                <div>
+                    <label>Ingrese salario</label>
+                    <input asp-for="salario" type="number" step="any" required />
+                </div>
+               <div>
+                   <label>Ingrese Su funcion</label>
+                   <select asp-for="rol" required>
+                       <option value="1">Mesero</option>
+                       <option value="2">Domiciliario</option>
+                       <option value="3">Cocinero</option>
+                   </select>
+               </div>
+               <br />
+               <button type="submit">Registrar</button>
+            </fieldset>
+        </form>
+    </div>
+    <div>
+        @if(ViewBag.mensajereg!=null){
+            <label>@ViewBag.mensajereg</label>
+        }
+    </div>
+</div>
+</div>
+
+
+

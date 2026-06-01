@@ -1,0 +1,61 @@
+@model Proveedor
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Registrar">Registrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Consultar">Consultar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Actualizar">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Gestion_proveedor" asp-action="Eliminar">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="col-md-10">
+            <div class="mx-auto" style="width:40%">
+                <div>
+                    <form asp-controller="Gestion_proveedor" asp-action="Registrar" method="post">
+                        <fieldset>
+                            <legend>Registrar Nuevo Proveedor</legend>
+                            <hr />
+                            <div>
+                                <label>NIT</label>
+                                <input asp-for="nit" type="text" required />
+                            </div>
+                            <div>
+                                <label>Razón Social o Nombre</label>
+                                <input asp-for="nombre" type="text" required />
+                            </div>
+                            <div>
+                                <label>Teléfono</label>
+                                <input asp-for="telefono" type="text" required />
+                            </div>
+                            <div>
+                                <label>Dirección</label>
+                                <input asp-for="direccion" type="text" required />
+                            </div>
+                            <br/>
+                            <button type="submit">Registrar</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <br />
+                <div>
+                    @if (ViewBag.mensajereg != null)
+                    {
+                        <label>@ViewBag.mensajereg</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

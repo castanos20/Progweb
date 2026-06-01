@@ -1,0 +1,51 @@
+﻿using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Repository;
+using System.Collections.Generic;
+
+namespace Proyecto_Polleria.Services
+{
+    public class Registrar_IngresoService
+    {
+        private readonly Registrar_IngresoRepository repository;
+
+        public Registrar_IngresoService(Registrar_IngresoRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        public bool Crear(Servicio servicio)
+        {
+            if (repository.GetById(servicio.id) == null)
+            {
+                repository.Create(servicio);
+                return true;
+            }
+            return false;
+        }
+
+        public List<Servicio> GetAll()
+        {
+            return repository.GetAll();
+        }
+
+        public Servicio GetById(int id)
+        {
+            return repository.GetById(id);
+        }
+
+        public void Update(Servicio servicio)
+        {
+            repository.Update(servicio);
+        }
+
+        public bool Delete(int id)
+        {
+            int filasAfectadas = repository.Delete(id);
+            if (filasAfectadas == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+}
