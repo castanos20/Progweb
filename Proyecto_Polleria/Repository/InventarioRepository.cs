@@ -1,6 +1,8 @@
 using Dapper;
 using Proyecto_Polleria.Data;
 using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Models.temp;
+using Proyecto_Polleria.Models.tempGraficos;
 
 namespace Proyecto_Polleria.Repository
 {
@@ -101,6 +103,35 @@ namespace Proyecto_Polleria.Repository
                 var totalSalida = conn.ExecuteScalar<double>(sql, new { id_tipo_movimiento = 2, id_ingrediente });
                 return totalIngres - totalSalida;
             }
+        }
+        public List<GraficoCompraTendVolu> ObtenerTendencia(Grafico_CompraTemp tmp)
+        {
+            using (var conn = db.GetConnection())
+            {
+
+                var truncador = tmp.periodo switch
+                {
+                    "hora" => "hour",
+                    "dia" => "day",
+                    "semana" => "week",
+                    "mes" => "month",
+                    _ => throw new ArgumentException($"Periodo inválido: {tmp.periodo}")
+                };
+                var sql = $"""
+                SELECT
+                    DATE_TRUNC('{truncador}', fecha)            AS periodo,
+                    SUM(precio_unitario)                       AS total_ingresos,
+                    COUNT(*)                                  AS cantidad_pedidos
+                FROM movimiento_inventario
+                WHERE fecha BETWEEN @fecha_inicio AND @fecha_fin
+                GROUP BY 1
+                ORDER BY 1
+                """;
+                return conn.Query<GraficoCompraTendVolu>(sql, tmp).ToList();
+            }
+
+
+
         }
     }
 }

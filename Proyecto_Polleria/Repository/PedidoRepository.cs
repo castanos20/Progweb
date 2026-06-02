@@ -1,6 +1,8 @@
-﻿using Dapper;
+using Dapper;
 using Proyecto_Polleria.Data;
 using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Models.temp;
+using Proyecto_Polleria.Models.tempGraficos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,8 +22,8 @@ namespace Proyecto_Polleria.Repository
             using (var conn = db.GetConnection())
             {
                 conn.Open();
-                var sql = @"INSERT INTO pedido (novedad, id_proceso, id_cocinero, id_servicio, id_plato) 
-                            VALUES (@novedad, @id_proceso, @id_cocinero, @id_servicio, @id_plato)";
+                var sql = @"INSERT INTO pedido (novedad, id_proceso, id_cocinero, id_servicio, id_plato, precio) 
+                            VALUES (@novedad, @id_proceso, @id_cocinero, @id_servicio, @id_plato, (SELECT precio FROM plato WHERE id = @id_plato))";
                 conn.Execute(sql, pedido);
             }
         }
@@ -87,6 +89,36 @@ namespace Proyecto_Polleria.Repository
                 var sql = "UPDATE pedido SET id_proceso = @id_proceso WHERE id = @id";
                 return conn.Execute(sql,tmp);
             }
+        }
+        public List<GraficoVentaTendVolu> ObtenerTendencia(Grafico_VentaTemp tmp)
+        {
+            using (var conn = db.GetConnection())
+            {
+            
+                var truncador = tmp.periodo switch
+                    {
+                        "hora" => "hour",
+                        "dia" => "day",
+                        "semana" => "week",
+                        "mes" => "month",
+                        _ => throw new ArgumentException($"Periodo inválido: {tmp.periodo}")
+                    };
+                var sql = $"""
+                SELECT
+                    DATE_TRUNC('{truncador}', s.hora_ingreso) AS periodo,
+                    SUM(p.precio)                                AS total_ingresos,
+                    COUNT(*)                                  AS cantidad_pedidos
+                FROM pedido p
+                JOIN servicio s ON p.id_servicio = s.id 
+                WHERE s.hora_ingreso BETWEEN @fecha_inicio AND @fecha_fin
+                GROUP BY 1
+                ORDER BY 1
+                """;
+                return conn.Query<GraficoVentaTendVolu>(sql, tmp).ToList();
+            }
+            
+
+
         }
     }
 }

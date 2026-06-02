@@ -100,5 +100,17 @@ namespace Proyecto_Polleria.Controllers
             ViewBag.mensaje = "Compra eliminada correctamente.";
             return View(null);
         }
+        [HttpGet]
+        public IActionResult Grafica()
+        {
+            Grafico_CompraTemp tmp = new Grafico_CompraTemp();
+            return View(tmp);
+        }
+        [HttpPost]
+        public IActionResult Grafica(Grafico_CompraTemp tmp)
+        {
+            Grafico_CompraTemp tmp2 = _service1.ObtenerTendencia(tmp);
+            return View(tmp2);
+        }
     }
 }

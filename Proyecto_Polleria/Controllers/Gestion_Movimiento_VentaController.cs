@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Proyecto_Polleria.Models;
 using Proyecto_Polleria.Models.temp;
+using Proyecto_Polleria.Models.tempGraficos;
 using Proyecto_Polleria.Services;
 
 namespace Proyecto_Polleria.Controllers
@@ -167,6 +168,17 @@ namespace Proyecto_Polleria.Controllers
 
             return RedirectToAction("Actualizar_Proceso");
         }
-
+        [HttpGet]
+        public IActionResult Graficas()
+        {
+            Grafico_VentaTemp tmp= new Grafico_VentaTemp();
+            return View(tmp);
+        }
+        [HttpPost]
+        public IActionResult Graficas(Grafico_VentaTemp tmp)
+        {
+            Grafico_VentaTemp tmp2 = pedidoService.ObtenerTendencia(tmp); 
+            return View(tmp2);
+        }
     }
 }

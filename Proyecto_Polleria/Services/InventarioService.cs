@@ -1,4 +1,6 @@
 using Proyecto_Polleria.Models;
+using Proyecto_Polleria.Models.temp;
+using Proyecto_Polleria.Models.tempGraficos;
 using Proyecto_Polleria.Repository;
 
 namespace Proyecto_Polleria.Services
@@ -59,6 +61,31 @@ namespace Proyecto_Polleria.Services
         public List<Ingrediente> GetAllIngredientes()
         {
             return ingredienteRepo.GetAll();
+        }
+        public Grafico_CompraTemp ObtenerTendencia(Grafico_CompraTemp tmp)
+        {
+            List<GraficoCompraTendVolu> gtv = repository.ObtenerTendencia(tmp);
+            Grafico_CompraTemp grafico_CompraTemp = new Grafico_CompraTemp();
+
+
+            grafico_CompraTemp.fecha_inicio = tmp.fecha_inicio;
+            grafico_CompraTemp.fecha_fin = tmp.fecha_fin;
+            grafico_CompraTemp.periodo = tmp.periodo;
+
+
+            string formato = tmp.periodo switch
+            {
+                "hora" => "yyyy-MM-dd HH:mm",
+                "dia" => "yyyy-MM-dd",
+                "semana" => "yyyy-MM-dd",
+                "mes" => "yyyy-MM",
+                _ => "yyyy-MM-dd"
+            };
+
+            grafico_CompraTemp.periodos = gtv.Select(x => x.periodo.ToString(formato)).ToList();
+            grafico_CompraTemp.total_ingresos = gtv.Select(x => x.total_ingresos).ToList();
+            grafico_CompraTemp.cantidad_pedidos = gtv.Select(x => x.cantidad_pedidos).ToList();
+            return grafico_CompraTemp;
         }
     }
 }

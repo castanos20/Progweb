@@ -1,0 +1,181 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Proyecto_Polleria.Models.temp.Grafico_VentaTemp
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="collapse" href="#menuRegistrar" role="button" aria-expanded="false" aria-controls="menuRegistrar">
+                        Registrar ▾
+                    </a>
+                    <div class="collapse" id="menuRegistrar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Ingreso">Registrar Ingreso</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Pedido">Registrar Pedido</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Registrar_Salida">Registrar Salida</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuConsultar" role="button" aria-expanded="false" aria-controls="menuConsultar">
+                        Consultar ▾
+                    </a>
+                    <div class="collapse" id="menuConsultar">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Consultar_Servicios">Historial de Ventas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Monitoreo_Cocina">Monitoreo Cocina</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuActualizar" role="button" aria-expanded="false" aria-controls="menuActualizar">
+                        Actualizar ▾
+                    </a>
+                    <div class="collapse" id="menuActualizar">
+                        <ul class="nav flex-column ms-3">
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Actualizar_Proceso">Actualizar estado</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menuEliminar" role="button" aria-expanded="false" aria-controls="menuEliminar">
+                        Eliminar ▾
+                    </a>
+                    <div class="collapse" id="menuEliminar">
+                        <ul class="nav flex-column ms-3">
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Eliminar">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#menuEliminar" role="button" aria-expanded="false" aria-controls="menuEliminar">
+                            Graficas ▾
+                        </a>
+                        <div class="collapse" id="menuEliminar">
+                            <ul class="nav flex-column ms-3">
+                                
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Gestion_Movimiento_Venta" asp-action="Graficas">Graficas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                </ul>
+            </nav>
+            <div>
+            <form asp-controller="Gestion_Movimiento_Venta" asp-action="Graficas" method="post">
+                <fieldset>
+                    <legend>Filtros de Reporte</legend>
+
+                    <p>
+                        <label for="fecha_inicio">Fecha de Inicio:</label>
+                        <input type="date" asp-for="fecha_inicio"  required>
+                    </p>
+
+                    <p>
+                        <label for="fecha_fin">Fecha de Fin:</label>
+                        <input type="date" asp-for="fecha_fin"  required>
+                    </p>
+
+                    <p>
+                        <label for="periodo">Periodo:</label>
+                        <select asp-for="periodo" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option value="hora">Por hora</option>
+                            <option value="dia">Diario</option>
+                            <option value="semana">Semanal</option>
+                            <option value="mes">Mensual</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <button type="submit">Aplicar Filtros</button>
+                    </p>
+                </fieldset>
+            </form>
+            @if(Model.periodos != null)
+            {
+                <div style="width: 80%; margin: 20px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e9ecef;">
+                    <canvas id="miGrafico"></canvas>
+                </div>  
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    // Conexión con el elemento del DOM
+                    const ctx = document.getElementById('miGrafico').getContext('2d');
+
+                    // Renderizado del gráfico con tu configuración mixta
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: @Html.Raw(Json.Serialize(Model.periodos)),
+                            datasets: [
+                                {
+                                    type: 'line',
+                                    label: 'Cantidades',
+                                    data: @Html.Raw(Json.Serialize(Model.cantidad_pedidos)),
+                                    borderColor: '#e056fd',
+                                    backgroundColor: 'rgba(224, 86, 253, 0.2)',
+                                    yAxisID: 'y2', // Escala para cantidades (eje derecho)
+                                    tension: 0.3,
+                                    fill: false
+                                },
+                                {
+                                    label: 'Ingresos ($)',
+                                    data: @Html.Raw(Json.Serialize(Model.total_ingresos)),
+                                    backgroundColor: 'rgba(30, 144, 255, 0.85)',
+                                    borderColor: '#1e90ff',
+                                    borderWidth: 1,
+                                    yAxisID: 'y1', // Escala para dinero (eje izquierdo)
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                // Configuración para que convivan dos ejes Y con datos de magnitudes distintas
+                                y1: { 
+                                    type: 'linear', 
+                                    position: 'left',
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + value.toLocaleString();
+                                        }
+                                    }
+                                },
+                                y2: { 
+                                    type: 'linear', 
+                                    position: 'right', 
+                                    grid: { drawOnChartArea: false } 
+                                }
+                            }
+                        }
+                    });
+                </script>
+            }
+            else
+            {
+                <div style="width: 80%; margin: 40px auto; text-align: center; padding: 40px; border-radius: 12px; background-color: #f8f9fa; border: 1px dashed #ced4da; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                    <h5 style="color: #495057; font-weight: 600; margin-bottom: 8px;">Visualización de Reporte</h5>
+                    <p style="color: #6c757d; font-size: 0.95rem; margin-bottom: 0;">Seleccione una fecha de inicio, fecha de fin y el periodo de agrupación para visualizar la gráfica de tendencias.</p>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
